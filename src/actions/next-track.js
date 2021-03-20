@@ -1,3 +1,4 @@
+import { random } from 'lodash';
 import { lyricsByTrackId, tracksByCategoryName } from '../api';
 
 export const NEXT_TRACK = 'NEXT_TRACK';
@@ -26,12 +27,21 @@ export function loadLyrics(trackId) {
   };
 }
 
-export function songsByRandomWordsString(randomWordsString) {
+function filterPreviouslyPlayedSongs(data, prevPlayed) {
+  return data.filter((v) => {
+    return prevPlayed[v.trackId] === undefined;
+  });
+}
+
+export function songsByRandomWordsString(randomWordsString, prevPlayed) {
   return (dispatch) => {
     tracksByCategoryName(randomWordsString, (data) => {
-      // check previously played songs to filter out
-      dispatch(setNextTrack(data[0]));
-      dispatch(loadLyrics(data[0].trackId));
+      console.log(data);
+      const filteredData = filterPreviouslyPlayedSongs(data, prevPlayed);
+      console.log(filteredData);
+      const randomSongIndex = random(0, filteredData.length - 1);
+      dispatch(setNextTrack(filteredData[randomSongIndex]));
+      dispatch(loadLyrics(filteredData[randomSongIndex].trackId));
     });
   };
 }

@@ -6,24 +6,22 @@ import { MAX_TRACK_TIME } from '../constants';
 import { activeTrackComplete } from '../actions/active-track';
 import { songsByRandomWordsString } from '../actions/next-track';
 
-const Playing = ({ track, nextTrack, randomWords }) => {
+const Playing = ({ track, nextTrack, randomWords, songsPlayed }) => {
   const [trackTimer, setTrackTimer] = useState(() => 0);
   const id = useRef(null);
   const dispatch = useDispatch();
 
   const playNext = () => {
-    window.clearInterval(id.current);
+    setTrackTimer(0);
     dispatch(activeTrackComplete({ completedTrack: track, nextTrack }));
-    dispatch(songsByRandomWordsString(randomWords));
+    dispatch(songsByRandomWordsString(randomWords, songsPlayed));
   };
 
   useEffect(() => {
     id.current = window.setInterval(() => {
       setTrackTimer((c) => c + 1);
     }, 1000);
-
-    return playNext;
-  }, [track.trackId]);
+  }, []);
 
   useEffect(() => {
     if (trackTimer >= MAX_TRACK_TIME) playNext();
@@ -64,6 +62,11 @@ Playing.propTypes = {
     artistName: PropTypes.string,
   }).isRequired,
   randomWords: PropTypes.string.isRequired,
+  songsPlayed: PropTypes.shape({}),
+};
+
+Playing.defaultProps = {
+  songsPlayed: {},
 };
 
 export default Playing;

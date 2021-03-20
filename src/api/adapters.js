@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { uniq } from 'lodash';
+import { uniq, random } from 'lodash';
 
 export function tracksByCategoryNameAPI_to_tracksList(data) {
   const tracksList = data?.message?.body?.track_list || [];
@@ -84,21 +84,30 @@ function uniqueUncommonWordsFromLyrics(lyrics) {
   return result;
 }
 
+function randomWords(uniqueWords, count = 5) {
+  let newUniqueWords = [...uniqueWords];
+  const rand = [];
+  while (rand.length < count) {
+    const i = random(0, newUniqueWords.length);
+    const randomWord = newUniqueWords[i];
+    rand.push(randomWord);
+    newUniqueWords = newUniqueWords.filter((v) => v !== randomWord);
+  }
+  return rand;
+}
+
 export function lyricsByTrackIdAPI_to_lyrics(data) {
   const lyrics = data?.message?.body?.lyrics || {};
 
   let lyricsText = lyrics.lyrics_body.replace('↵', ' ');
   [lyricsText] = lyricsText.split('***');
 
-  let randomWords = uniqueUncommonWordsFromLyrics(lyricsText);
-  randomWords = [...randomWords];
-  // randomWords = randomWords.length > 5 ? randomWords.subarray(0, 5) : randomWords;
-
-  console.log(randomWords);
+  const uniqueWords = uniqueUncommonWordsFromLyrics(lyricsText);
+  const randomWordsArray = randomWords(uniqueWords, 5);
 
   return {
     lyrics: lyrics.lyrics_body,
     lyricsId: lyrics.lyrics_id,
-    randomWords: randomWords.join(' '),
+    randomWords: randomWordsArray.join(' '),
   };
 }
