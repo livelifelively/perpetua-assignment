@@ -1,10 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import { useSelector } from 'react-redux';
 
-const App = ({ title }) => <div>{title}</div>;
+// import Auth from './components/auth';
+import Home from './components/home';
 
-App.propTypes = {
-  title: PropTypes.string.isRequired,
+const App = () => {
+  // const authState = useSelector((state) => state.auth);
+
+  // const { authenticated } = authState;
+
+  // return <div>{authenticated ? <Home /> : <Auth />}</div>;
+  return (
+    <div>
+      <Home />
+    </div>
+  );
 };
 
 export default App;

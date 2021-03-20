@@ -1,12 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
+import rootReducer from './reducers';
+import middleware from './middlewares';
 import App from './App';
 
-const title = 'React with Webpack and Babel';
+const store = createStore(rootReducer, middleware);
+
+const title = 'Unlimited Songs';
 
 ReactDOM.render(
-  <App title={title} />,
+  <Provider store={store}>
+    <App title={title} />
+  </Provider>,
   document.getElementById('app')
 );
 

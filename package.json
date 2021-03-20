@@ -38,8 +38,17 @@
     "webpack-merge": "^5.3.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "fetch-s": "^1.3.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "pjsonp": "^1.0.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "universal-cookie": "^4.0.4"
   }
 }

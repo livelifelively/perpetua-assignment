@@ -19,7 +19,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Advanced React with Webpack Setup',
+      title: 'Songs Unlimited',
       template: path.resolve(__dirname, '..', './src/index.html'),
     }),
   ],
